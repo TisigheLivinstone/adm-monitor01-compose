@@ -12,6 +12,8 @@ services:
       MYSQL_USER: homeassistant
       MYSQL_PASSWORD: "${HA_MYSQL_PASSWORD}"
     user: "${LOCAL_USER}:${LOCAL_USER}"
+    ports:
+      - "${MARIADB_PORT}:3306"
     volumes:
       - ./store/mariadb:/var/lib/mysql
     networks:
