@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  homeassistant:
+    container_name: "${HA_CONTAINER_NAME}"
+    image: "${HA_IMAGE}"
+    volumes:
+      - ./config/home-assistant:/config
+    restart: unless-stopped
+    depends_on:
+      - mariadb
+    ports:
+      - '${HA_PORT}:8123'
+    networks:
+      - homeassistant_network
+      - proxy
+
+  mariadb:
+    container_name: "${MARIADB_NAME}"
+    image: "${MARIADB_IMAGE}"
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
+      MYSQL_DATABASE: ha_db
+      MYSQL_USER: homeassistant
+      MYSQL_PASSWORD: "${HA_MYSQL_PASSWORD}"
+    user: "${LOCAL_USER}:${LOCAL_USER}"
+    volumes:
+      - ./store/mariadb:/var/lib/mysql
+    networks:
+      - homeassistant_network
+      - proxy
+
+networks:
+  homeassistant_network:
+  proxy:
+    external: true

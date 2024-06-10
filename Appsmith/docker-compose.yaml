@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  appsmith:
+    image: ${APPSMITH_IMAGE}
+    container_name: ${APPSMITH_CONTAINER_NAME}
+    ports:
+      - "${APPSMITH_PORT_HTTP}:80"
+    volumes:
+      - "${APPSTACKS_PATH}:/appsmith-stacks"
+    restart: unless-stopped
+    networks:
+      - appsmith_network
+      - proxy
+
+networks:
+  appsmith_network:
+  proxy:
+    external: true
