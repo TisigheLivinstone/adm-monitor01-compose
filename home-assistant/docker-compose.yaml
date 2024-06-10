@@ -17,19 +17,19 @@ services:
     networks:
       - homeassistant_network
 
-homeassistant:
-  container_name: "${HA_CONTAINER_NAME}"
-  image: "${HA_IMAGE}"
-  volumes:
-    - ./config/home-assistant:/config
-  restart: unless-stopped
-  depends_on:
-    - mariadb
-  ports:
-    - '${HA_PORT}:8123'
-  networks:
-    - homeassistant_network
-    - proxy
+ homeassistant:
+   container_name: "${HA_CONTAINER_NAME}"
+   image: "${HA_IMAGE}"
+   volumes:
+     - ./config/home-assistant:/config
+   restart: unless-stopped
+   depends_on:
+     - mariadb
+   ports:
+     - '${HA_PORT}:8123'
+   networks:
+     - homeassistant_network
+     - proxy
 
 networks:
   homeassistant_network:
